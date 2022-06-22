@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+enum Status {
+    ONLINE
+    OFFLINE
+    INGAME
+    SPECTATE
+}
+
+model User {
+    id          Int     @id @unique @default(autoincrement())
+    username    String  @unique
+    displayName String  @unique
+    email       String  @unique
+    avatar      String
+    status      Status  @default(OFFLINE)
+    twoFactor   Boolean @default(false)
+
+    senderMessage   Message[] @relation("sender")
+    receiverMessage Message[] @relation("receiver")
+
+    Channel Channel[] @relation("owner")
+
+    channel        Channel[]
+    channelMessage ChannelMessage[]
+
+    @@map("users")
+}
+
+model Message {
+    id      Int      @id @unique @default(autoincrement())
+    message String
+    time    DateTime @default(now())
+
+    senderId   Int
+    sender     User @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+    receiverId Int
+    receiver   User @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+    @@map("messages")
+}
+
+model ChannelMessage {
+    id      Int      @id @unique @default(autoincrement())
+    time    DateTime @default(now())
+    message String
+
+    userId    Int
+    senderId  User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    channelId Int
+    channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+    @@map("channel_messages")
+}
+
+enum Visibility {
+    PROTECTED
+    PUBLIC
+    PRIVATE
+}
+
+model Channel {
+    id         Int              @id @unique @default(autoincrement())
+    name       String           @unique
+    visibility Visibility       @default(PUBLIC)
+    password   String?
+    messages   ChannelMessage[]
+
+    ownerId Int
+    owner   User @relation("owner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+    user User[]
+
+    @@map("channels")
+}

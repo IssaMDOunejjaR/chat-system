@@ -1,0 +1,6 @@
+export enum Status {
+	ONLINE = 'ONLINE',
+	OFFLINE = 'OFFLINE',
+	INGAME = 'INGAME',
+	SPECTATE = 'SPECTATE',
+}
