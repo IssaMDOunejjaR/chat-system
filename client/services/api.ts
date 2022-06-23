@@ -5,6 +5,7 @@ const token = Cookies.get('token');
 
 export const api = axios.create({
 	baseURL: 'https://chat-server-personal.up.railway.app',
+	withCredentials: true,
 	headers: {
 		authorization: 'Bearer ' + token,
 	},
