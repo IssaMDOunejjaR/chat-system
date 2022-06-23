@@ -23,6 +23,7 @@ export class AuthController {
 			expires: new Date(Date.now() + 14400000),
 			domain: 'https://chat-system-liart.vercel.app',
 			sameSite: 'none',
+			path: '/',
 		});
 
 		response.redirect('https://chat-system-liart.vercel.app/chat');
