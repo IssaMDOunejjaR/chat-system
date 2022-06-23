@@ -2,14 +2,10 @@ import { Strategy } from 'passport-42';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
-import { AuthService } from './auth.service';
 
 @Injectable()
 export class O42Strategy extends PassportStrategy(Strategy) {
-	constructor(
-		private userService: UserService,
-		private authService: AuthService,
-	) {
+	constructor(private userService: UserService) {
 		super({
 			clientID: process.env.CLIENT_ID,
 			clientSecret: process.env.SECRET_ID,
@@ -18,8 +14,8 @@ export class O42Strategy extends PassportStrategy(Strategy) {
 	}
 
 	async validate(
-		accessToken: string,
-		refreshToken: string,
+		_accessToken: string,
+		_refreshToken: string,
 		profile: any,
 	): Promise<any> {
 		const { username } = profile;
@@ -31,7 +27,7 @@ export class O42Strategy extends PassportStrategy(Strategy) {
 				username,
 				email: profile.emails[0].value,
 				displayName: profile.displayName,
-				avatarUrl: profile.profileUrl,
+				avatar: profile.profileUrl,
 			});
 		}
 

@@ -3,21 +3,20 @@ import { AuthGuard } from '@nestjs/passport';
 import { User } from '@prisma/client';
 import { Request, Response } from 'express';
 import { AuthService } from './auth.service';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
 	constructor(private authService: AuthService) {}
 
 	@UseGuards(AuthGuard('42'))
 	@Get('signin')
 	handleSignin(@Req() request: Request, @Res() response: Response) {
-		const { username, email, displayName, avatar } = request.user as User;
+		const user = request.user as User;
 
 		const { accessToken } = this.authService.login({
-			username: username,
-			email: email,
-			displayName: displayName,
-			avatarUrl: avatar,
+			...user,
 		});
 
 		response.cookie('token', accessToken, {

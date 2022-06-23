@@ -1,14 +1,28 @@
-import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	ParseIntPipe,
+	Put,
+	Req,
+	UseGuards,
+} from '@nestjs/common';
 import { User } from '@prisma/client';
 import { Request } from 'express';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserService } from './user.service';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('user')
+@ApiTags('user')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 export class UserController {
 	constructor(private userService: UserService) {}
 
-	@UseGuards(JwtAuthGuard)
 	@Get('me')
 	async getUserInfoByUsername(@Req() request: Request) {
 		const { username } = request.user as User;
@@ -16,15 +30,28 @@ export class UserController {
 		return await this.userService.getUserInfoByUsername(username);
 	}
 
-	@UseGuards(JwtAuthGuard)
 	@Get('all')
-	async getAllUsers() {
-		return await this.userService.getAllUsers();
+	async getAllUsers(@Req() request: Request) {
+		const { id } = request.user as User;
+
+		return await this.userService.getAllUsers(id);
 	}
 
-	@UseGuards(JwtAuthGuard)
 	@Get(':id')
 	async getUserInfoById(@Param('id') id: string) {
 		return await this.userService.getUserInfoById(+id);
+	}
+
+	@Put(':id')
+	async updateUserInfo(
+		@Param('id', ParseIntPipe) id: number,
+		@Body() body: UpdateUserDto,
+	) {
+		return await this.userService.updateUserInfo(id, body);
+	}
+
+	@Delete(':id')
+	async deleteUser(@Param('id', ParseIntPipe) id: number) {
+		return await this.userService.deleteuser(id);
 	}
 }

@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { CreateUserInfo } from 'src/interfaces/userInfo';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -36,14 +38,11 @@ export class UserService {
 		}
 	}
 
-	async createUser(userInfo: CreateUserInfo) {
+	async createUser(userInfo: CreateUserDto) {
 		try {
 			const user = await this.prismaService.user.create({
 				data: {
-					username: userInfo.username,
-					email: userInfo.email,
-					displayName: userInfo.displayName,
-					avatar: userInfo.avatarUrl,
+					...userInfo,
 				},
 			});
 
@@ -54,11 +53,38 @@ export class UserService {
 		}
 	}
 
-	async getAllUsers() {
+	async getAllUsers(id: number) {
 		try {
 			const users = await this.prismaService.user.findMany();
 
-			return users;
+			return users.filter((user: User) => user.id !== id);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async updateUserInfo(id: number, userData: UpdateUserDto) {
+		try {
+			const updatedUser = await this.prismaService.user.update({
+				where: {
+					id,
+				},
+				data: { ...userData },
+			});
+
+			return updatedUser;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async deleteuser(id: number) {
+		try {
+			const deletedUser = await this.prismaService.user.delete({
+				where: { id },
+			});
+
+			return deletedUser;
 		} catch (error) {
 			console.log(error);
 		}

@@ -56,4 +56,27 @@ export class ChannelService {
 			console.log(error);
 		}
 	}
+
+	async deleteChannel(id: number) {
+		try {
+			const deleteChannel = await this.prismaService.channel.delete({
+				where: { id },
+			});
+
+			return deleteChannel;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	async addUserToChannel(channelId: number, userId: number) {
+		try {
+			// const result = await this.prismaService.channel.update({
+			// 	where: { id: channelId },
+			// 	data: {user: },
+			// });
+		} catch (error) {
+			console.log(error);
+		}
+	}
 }
