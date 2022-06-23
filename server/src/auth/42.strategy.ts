@@ -9,7 +9,8 @@ export class O42Strategy extends PassportStrategy(Strategy) {
 		super({
 			clientID: process.env.CLIENT_ID,
 			clientSecret: process.env.SECRET_ID,
-			callbackURL: 'http://localhost:9000/auth/signin',
+			callbackURL:
+				'https://chat-server-personal.up.railway.app/auth/signin',
 		});
 	}
 
