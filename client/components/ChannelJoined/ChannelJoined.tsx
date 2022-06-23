@@ -19,14 +19,21 @@ interface JoinedUserProps {
 	online: boolean;
 }
 
-const JoinedUser: React.FC<JoinedUserProps> = ({ displayName, online }) => {
-	const Wrapper = online ? UserItem : ContainerOffline;
+const JoinedUser = ({ displayName, online }: JoinedUserProps) => {
+	if (online) {
+		return (
+			<UserItem>
+				<Picture />
+				<DisplayName>{displayName}</DisplayName>
+			</UserItem>
+		);
+	}
 
 	return (
-		<Wrapper>
+		<ContainerOffline>
 			<Picture />
 			<DisplayName>{displayName}</DisplayName>
-		</Wrapper>
+		</ContainerOffline>
 	);
 };
 
