@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @WebSocketGateway({
 	cors: {
-		origin: 'https://chat-system-liart.vercel.app/',
+		origin: 'https://chat-system-liart.vercel.app',
 		credentials: true,
 	},
 })

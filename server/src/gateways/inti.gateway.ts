@@ -12,7 +12,7 @@ import { User } from '@prisma/client';
 
 @WebSocketGateway({
 	cors: {
-		origin: 'https://chat-system-liart.vercel.app/',
+		origin: 'https://chat-system-liart.vercel.app',
 		credentials: true,
 	},
 })
