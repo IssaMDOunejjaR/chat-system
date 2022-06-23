@@ -1,12 +1,19 @@
-import { Container, SidebarBox, Header, Search, Input } from './style';
+import {
+	Container,
+	SidebarBox,
+	Header,
+	Search,
+	Input,
+	TabPanel,
+} from './style';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import MessageIcon from '@mui/icons-material/Message';
 import GroupsIcon from '@mui/icons-material/Groups';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Tabs, Tab, IconButton } from '@mui/material';
-import { useState } from 'react';
-import { CreateChannel, TabPanel, Friends, Channels } from '..';
+import React, { useState } from 'react';
+import { CreateChannel, Friends, Channels } from '..';
 import { useSocket } from '../../contexts/socket';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
@@ -77,11 +84,11 @@ export default function Sidebar() {
 						<Tab icon={<GroupsIcon />} />
 					</Tabs>
 				</SidebarBox>
-				<TabPanel value={chatType} index={0}>
-					{chatType === 0 && <Friends />}
+				<TabPanel hidden={chatType !== 0}>
+					{chatType === 0 && <Friends search={search} />}
 				</TabPanel>
-				<TabPanel value={chatType} index={1}>
-					{chatType === 1 && <Channels />}
+				<TabPanel hidden={chatType !== 1}>
+					{chatType === 1 && <Channels search={search} />}
 				</TabPanel>
 			</Container>
 		</>

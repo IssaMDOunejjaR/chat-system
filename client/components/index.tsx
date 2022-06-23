@@ -1,5 +1,4 @@
 export { default as Sidebar } from './Sidebar/Sidebar';
-export { default as TabPanel } from './TabPanel/TabPanel';
 export { default as Protected } from './Protected/Protected';
 export { default as Loader } from './Loader/Loader';
 export { default as Conversation } from './Conversation/Conversation';

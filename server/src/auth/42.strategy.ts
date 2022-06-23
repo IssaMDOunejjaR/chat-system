@@ -27,7 +27,7 @@ export class O42Strategy extends PassportStrategy(Strategy) {
 				username,
 				email: profile.emails[0].value,
 				displayName: profile.displayName,
-				avatar: profile.profileUrl,
+				avatar: `https://cdn.intra.42.fr/users/${username}.jpg`,
 			});
 		}
 

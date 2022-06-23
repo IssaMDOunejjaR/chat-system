@@ -61,3 +61,12 @@ export const Input = styled.input`
 		outline: none;
 	}
 `;
+
+interface TabPanelProps {
+	value: number;
+	index: number;
+}
+
+export const TabPanel = styled.div`
+	padding: 15px 0;
+`;

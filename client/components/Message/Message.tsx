@@ -20,7 +20,7 @@ export default function Message({
 }: {
 	ownMessage: boolean;
 	data: MessageData;
-	sameUser: boolean;
+	sameUser?: boolean;
 }) {
 	const {
 		state: { chatType },

@@ -7,15 +7,17 @@ import { updatePrivateMessages, updateUserInfo } from '../socket';
 
 const token = Cookies.get('token');
 
-const socket = io(`http://localhost:9000`, { query: { token } });
+const socket = io(`https://chat-server-personal.up.railway.app`, {
+	query: { token },
+});
 
 const SocketContext = createContext(socket);
 
-export const SocketProvider = ({
-	children,
-}: {
-	children: JSX.Element | JSX.Element[] | string;
-}) => {
+type Props = {
+	children: React.ReactNode;
+};
+
+export const SocketProvider: React.FC<Props> = ({ children }) => {
 	const { data: user } = useLoggedUserData();
 	const queryClient = useQueryClient();
 

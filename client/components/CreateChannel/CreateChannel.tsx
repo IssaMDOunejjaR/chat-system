@@ -36,6 +36,7 @@ export default function CreateChannel({
 				password,
 				ownerId: user?.data.id,
 			});
+			setOpen(false);
 		}
 	};
 

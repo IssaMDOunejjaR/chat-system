@@ -12,26 +12,42 @@ import {
 import moment from 'moment';
 import NoData from '../NoData/NoData';
 import { useUserContext } from '../../contexts/user';
+import { useEffect, useState } from 'react';
 
-export default function Channels() {
-	const { data: user } = useLoggedUserData();
-	const { data: channels, isLoading } = useAllJoinedChannels(user);
+interface Props {
+	search: string;
+}
+
+export default function Channels({ search }: Props) {
 	const {
-		state: { id },
+		state: { id, chatType },
 		dispatch,
 	} = useUserContext();
+	const { data: user } = useLoggedUserData();
+	const { data: channels, isLoading } = useAllJoinedChannels(user);
+	const [result, setResult] = useState(channels?.data);
 
 	const handleClick = (id: number) => {
 		dispatch({ type: 'SET_ID', id });
 		dispatch({ type: 'SET_CONTENT', content: 'chat' });
 	};
 
+	useEffect(() => {
+		if (search && chatType === 1 && channels?.data.length > 0) {
+			setResult(
+				channels?.data.filter((channel: any) =>
+					channel.name.toLowerCase().includes(search.toLowerCase()),
+				),
+			);
+		} else setResult(channels?.data);
+	}, [search, chatType, channels?.data]);
+
 	if (isLoading) return <Loader size={60} />;
 
 	return (
 		<>
-			{channels?.data.length > 0 ? (
-				channels?.data.map((channel: any) => (
+			{result?.length > 0 ? (
+				result.map((channel: any) => (
 					<Container
 						key={channel.id}
 						active={channel.id === id}

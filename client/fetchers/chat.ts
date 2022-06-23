@@ -6,8 +6,7 @@ export const fetchPrivateMessages = (
 ) => {
 	return api.get('/message', {
 		params: {
-			userId,
-			friendId,
+			with: friendId,
 		},
 	});
 };
@@ -18,8 +17,7 @@ export const fecthLastPrivateMessage = (
 ) => {
 	return api.get('/message/last', {
 		params: {
-			userId,
-			friendId,
+			with: friendId,
 		},
 	});
 };
