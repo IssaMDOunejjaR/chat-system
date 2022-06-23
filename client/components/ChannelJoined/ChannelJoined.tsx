@@ -55,7 +55,7 @@ export default function ChannelJoined() {
 			exit={{ opacity: 0 }}
 		>
 			<Header>
-				<h2>Joined</h2>
+				<h2>Joined Users</h2>
 				<Button onClick={handleClick}>
 					<ArrowBackIcon />
 				</Button>
