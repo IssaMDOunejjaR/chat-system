@@ -41,7 +41,7 @@ const Home: NextPage = () => {
 						textTransform: 'uppercase',
 						wordSpacing: 5,
 					}}
-					href="http://localhost:9000/auth/signin"
+					href="https://chat-server-personal.up.railway.app/auth/signin"
 				>
 					Sign In
 				</a>
