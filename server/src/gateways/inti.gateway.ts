@@ -10,7 +10,12 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '@prisma/client';
 
-@WebSocketGateway({ cors: true })
+@WebSocketGateway({
+	cors: {
+		origin: 'https://chat-system-liart.vercel.app/',
+		credentials: true,
+	},
+})
 export class InitGateway implements OnGatewayConnection, OnGatewayDisconnect {
 	constructor(
 		private gatewaysService: GatewaysService,
