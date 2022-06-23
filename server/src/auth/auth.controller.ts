@@ -21,6 +21,8 @@ export class AuthController {
 
 		response.cookie('token', accessToken, {
 			expires: new Date(Date.now() + 14400000),
+			domain: 'https://chat-system-liart.vercel.app',
+			sameSite: 'none',
 		});
 
 		response.redirect('https://chat-system-liart.vercel.app/chat');
